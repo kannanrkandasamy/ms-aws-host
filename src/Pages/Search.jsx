@@ -78,7 +78,7 @@ function Search() {
       })
       .catch((error) => console.error(error));
   };
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     fetchData(0, 24);
   }, []);
