@@ -6,13 +6,13 @@ const IKON = () => {
   return (
     <>
       <Navbar />
-      {/* <div
+      <div
         style={{
           background:
             "radial-gradient(ellipse at 50% -50%, #6c94ff 0, #000 100%)",
           height: "75px",
         }}
-      ></div> */}
+      ></div>
       <div className="banner mb-4">
         <iframe
           src="https://player.vimeo.com/video/806813966?background=1"
@@ -36,10 +36,9 @@ const IKON = () => {
 
         <div className="banner-text container-fluid col-lg-11">
           <div>
-            <p className="mb-0">Test the Waters.</p>
-            <p className="">Find Your iKon Today.</p>
+            <p className="mb-0">Test the Waters. Find Your iKon Today.</p>
 
-            <Row className="g-2 mb-2">
+            {/* <Row className="g-2 mb-2">
               <Col
                 xs={12}
                 md={4}
@@ -58,7 +57,7 @@ const IKON = () => {
               >
                 Enquire Now
               </Col>
-            </Row>
+            </Row> */}
           </div>
         </div>
       </div>
@@ -147,53 +146,127 @@ const IKON = () => {
               </div>
             </Col>
           </Row> */}
-          <Row className="g-3" style={{ fontFamily: "Roboto" }}>
+          <Row className="g-3 gradient-c2" style={{ fontFamily: "Roboto" }}>
             <Col xs={12} md={6}>
-              <div className="gradient-c2 p-3">
-                <p className="text-white my-2 mb-0">LX20</p>
-                <h2 className="text-white">World-Class Helm</h2>
-                <img
-                  src="https://www.megasails.com/ikonboats/src/images/gallery9%20copy.png"
-                  alt=""
-                  className="img-fluid"
-                />
-                <span>
-                  <a href="##" className="text-white fs-5">
-                    Learn more{"  "}
-                  </a>
-                  <i class="fa-solid fa-angles-right text-white"></i>
-                </span>
+              <div className="p-3 m-2">
+                <div>
+                  <p className="text-white fw-bold my-2 mb-0">LX20</p>
+                  <h2 className="text-white">World-Class Helm</h2>
+                  <table className="mt-3 table table-striped table-hover fw-bold">
+                    <tbody>
+                      <tr>
+                        <th scope="row" className="t-header">
+                          Length
+                        </th>
+                        <td>20’10”</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" className="t-header">
+                          Beam
+                        </th>
+                        <td>98”</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" className="t-header">
+                          Fuel Capacity
+                        </th>
+                        <td>50 Gallons</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" className="t-header">
+                          Livewell Capacity
+                        </th>
+                        <td>35 Gallons</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" className="t-header">
+                          Rod Box Length
+                        </th>
+                        <td>9’8”</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <span>
+                    <a href="##" className="text-white fs-5">
+                      Enquire Now{"  "}
+                    </a>
+                    <i class="fa-solid fa-angles-right text-white"></i>
+                  </span>
+                </div>
               </div>
             </Col>
             <Col xs={12} md={6}>
-              <div className="gradient-c3 p-3">
-                <p className="text-white my-2 mb-0">LX21</p>
-                <h2 className="text-white">Massive Machine Room</h2>
+              <div className="p-3 m-2">
                 <img
                   src="https://www.megasails.com/ikonboats/src/images/gallery9%20copy.png"
                   alt=""
                   className="img-fluid"
                 />
-                <span>
-                  <a href="##" className="text-white fs-5">
-                    Learn more{"  "}
-                  </a>
-                  <i class="fa-solid fa-angles-right text-white"></i>
-                </span>
               </div>
             </Col>
           </Row>
+          <br />
+          <Row className="g-3 gradient-c3 " style={{ fontFamily: "Roboto" }}>
+            <Col xs={12} md={6}>
+              <div className="p-3 m-2">
+                <div>
+                  <p className="text-white fw-bold my-2 mb-0">LX21</p>
+                  <h2 className="text-white">Massive Machine Room</h2>
+                  <table class="mt-3 table table-striped table-hover fw-bold">
+                    <tbody>
+                      <tr>
+                        <th scope="row" class="t-header">
+                          Length
+                        </th>
+                        <td>21’10”</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="t-header">
+                          Beam
+                        </th>
+                        <td>98”</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="t-header">
+                          Fuel Capacity
+                        </th>
+                        <td>50 Gallons</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="t-header">
+                          Livewell Capacity
+                        </th>
+                        <td>35 Gallons</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="t-header">
+                          Rod Box Length
+                        </th>
+                        <td>9’8”</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <span>
+                    <a href="##" className="text-white fs-5">
+                      Enquire Now{"  "}
+                    </a>
+                    <i class="fa-solid fa-angles-right text-white"></i>
+                  </span>
+                </div>
+              </div>
+            </Col>
+            <Col xs={12} md={6}>
+              <div className="p-3 m-2">
+                <img
+                  src="https://www.megasails.com/ikonboats/src/images/gallery9%20copy.png"
+                  alt=""
+                  className="img-fluid"
+                />
+              </div>
+            </Col>
+          </Row>
+          <br />
         </Container>
-      </div>
-
-      <div className="mt-3 py-3 text-center text-white gradient-c1">
-        VLX Series Coming in Early 2024 -{" "}
-        <span>
-          <a href="##" className="text-white fs-5">
-            Book Now{" "}
-          </a>
-        </span>
-        <i class="fa-solid fa-angles-right"></i>
       </div>
     </>
   );

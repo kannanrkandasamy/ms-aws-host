@@ -15,6 +15,10 @@ import IKON from "./Pages/IKON";
 import NewsEvents from "./Pages/NewsEvents";
 import Footer from "./Components/Footer";
 import { useEffect } from "react";
+import NewsDetails from "./Pages/newsDetails";
+import NewsDetails1 from "./Pages/newsDetails1";
+import MarketingPolicy from "./Pages/MarketingPolicy";
+import PrivacyPolicy from "./Pages/PrivacyPolicy";
 
 function App() {
   const ScrollToTop = () => {
@@ -47,6 +51,10 @@ function App() {
           <Route path="/65-estrella" element={<Estrella />} />
           <Route path="/ikon" element={<IKON />} />
           <Route path="/news&events" element={<NewsEvents />} />
+          <Route path="/newsDetails/aug28" element={<NewsDetails />} />
+          <Route path="/newsDetails/aug3" element={<NewsDetails1 />} />
+          <Route path="/marketing-policy" element={<MarketingPolicy />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         </Routes>
         <Footer />
       </BrowserRouter>

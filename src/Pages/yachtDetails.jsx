@@ -98,7 +98,7 @@ const YachtDetails = () => {
                   onClose={closeFullScreenView}
                   center
                   classNames={{
-                    modal: "custom-modal", // Add a custom class for styling
+                    modal: "custom-modal",
                   }}
                   closeIcon={
                     <i
@@ -122,14 +122,14 @@ const YachtDetails = () => {
                       prevEl: ".swiper-button-prev",
                     }}
                     modules={[Navigation, Pagination]}
-                    className="mySwiper details-banner"
+                    className="mySwiper details-popup"
                   >
                     {yachts[0].Images.map((image, index) => (
-                      <SwiperSlide key={index}>
+                      <SwiperSlide key={index} className="text-center">
                         <img
                           src={image.Uri}
                           alt={"..."}
-                          className="detailed-swiper-slide"
+                          className="detailed-swiper-popup"
                         />
                       </SwiperSlide>
                     ))}
@@ -142,7 +142,7 @@ const YachtDetails = () => {
                       style={{ color: "#E4A11B" }}
                     ></div>
                     <div
-                      className="swiper-pagination"
+                      className="swiper-pagination text-warning"
                       style={{ backgroundColor: "#E4A11B" }}
                     ></div>
                   </Swiper>
@@ -273,7 +273,7 @@ const YachtDetails = () => {
                     Contact Info
                   </h4>
                   <hr />
-                  <YachtDetailsContact />
+                  <YachtDetailsContact yachtId={yacht.DocumentID} />
                 </Col>
               </Row>
             </Container>

@@ -100,13 +100,13 @@ function Footer() {
               >
                 Privacy Policy
               </a>
-              <a
-                href="/marketing-policy"
+              <Link
+                to={`/marketing-policy`}
                 className="m-0 text-white"
                 style={{ fontSize: "14px" }}
               >
                 Marketing Policy
-              </a>
+              </Link>
             </div>
           </Col>
 

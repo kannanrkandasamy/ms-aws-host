@@ -3,8 +3,8 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import Navbar from "../Components/Navbar";
 import "react-phone-number-input/style.css";
 import my_img from "../Images/banner_hcb.png";
-import { db } from "../firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { ref, push } from "firebase/database";
+import { database } from "../firebase";
 
 function Contact() {
   const formRef = useRef();
@@ -32,24 +32,27 @@ function Contact() {
   };
 
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phoneNumber: "",
-    city: "",
-    state: "",
-    inquiry: "",
-    comments: "",
-    comments2: "",
+    NM_firstName: "",
+    NM_lastName: "",
+    ID_email: "",
+    NO_phoneNumber: "",
+    CD_city: "",
+    CD_state: "",
+    CD_country: "",
+    CA_category: "",
+    DS_comments1: "",
+    DS_comments2: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    // Validate and limit the length for the phoneNumber field
-    if (name === "phoneNumber") {
-      const phoneNumber = value.replace(/\D/g, ""); // Remove non-digit characters
+    if (name === "NO_phoneNumber") {
+      // Remove non-digit characters
+      const phoneNumber = value.replace(/\D/g, "");
+
+      // Limit to 10 digits
       if (phoneNumber.length <= 10) {
-        // Limit to 10 digits
+        // Apply the desired format
         const formattedValue = formatPhoneNumber(phoneNumber);
         setFormData({ ...formData, [name]: formattedValue });
       }
@@ -60,23 +63,42 @@ function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const serviceReqDataRef = collection(db, "Contacts");
-      await addDoc(serviceReqDataRef, formData);
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phoneNumber: "",
-        city: "",
-        state: "",
-        inquiry: "",
-        comments: "",
-        comments2: "",
+    const currentDate = new Date();
+    const formattedDateTime = currentDate.toLocaleString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false, // Set to true for 12-hour clock format
+    });
+    const updatedFormData = {
+      ...formData,
+      submitDateTime: formattedDateTime,
+    };
+    const inquiriesRef = ref(database, "inquiries");
+
+    // Push the form data to the "inquiries" collection
+    push(inquiriesRef, updatedFormData)
+      .then((newInquiryRef) => {
+        // Reset the form
+        setFormData({
+          NM_firstName: "",
+          NM_lastName: "",
+          ID_email: "",
+          NO_phoneNumber: "",
+          CD_city: "",
+          CD_state: "",
+          CD_country: "",
+          CA_category: "",
+          DS_comments1: "",
+          DS_comments2: "",
+        });
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
       });
-    } catch (error) {
-      console.error("Error adding form data to Firestore:", error.message);
-    }
   };
 
   return (
@@ -178,8 +200,8 @@ function Contact() {
                         className="mb-2"
                         type="text"
                         placeholder="First Name"
-                        name="firstName"
-                        value={formData.firstName}
+                        name="NM_firstName"
+                        value={formData.NM_firstName}
                         onChange={handleChange}
                         required
                       />
@@ -190,9 +212,9 @@ function Contact() {
                       <Form.Control
                         className="mb-2"
                         type="text"
-                        name="lastName"
+                        name="NM_lastName"
                         placeholder="Last Name"
-                        value={formData.lastName}
+                        value={formData.NM_lastName}
                         onChange={handleChange}
                         required
                       />
@@ -207,8 +229,8 @@ function Contact() {
                         className="mb-2"
                         type="email"
                         placeholder="Email"
-                        name="email"
-                        value={formData.email}
+                        name="ID_email"
+                        value={formData.ID_email}
                         onChange={handleChange}
                         required
                       />
@@ -219,9 +241,9 @@ function Contact() {
                       <Form.Control
                         className="mb-2"
                         type="tel"
-                        name="phoneNumber"
+                        name="NO_phoneNumber"
                         placeholder="Phone (123) 456-7890"
-                        value={formData.phoneNumber}
+                        value={formData.NO_phoneNumber}
                         onChange={handleChange}
                         required
                       />
@@ -230,47 +252,75 @@ function Contact() {
                 </Row>
 
                 <Row className="g-2">
-                  <Col lg={6}>
+                  <Col lg={4}>
                     <Form.Group controlId="city">
                       <Form.Control
                         className="mb-2"
                         type="text"
-                        name="city"
+                        name="CD_city"
                         placeholder="City"
-                        value={formData.city}
+                        value={formData.CD_city}
                         onChange={handleChange}
                         required
                       />
                     </Form.Group>
                   </Col>
-                  <Col lg={6}>
+                  <Col lg={4}>
                     <Form.Group controlId="state">
                       <Form.Control
                         className="mb-2"
                         type="text"
                         placeholder="State"
-                        name="state"
-                        value={formData.state}
+                        name="CD_state"
+                        value={formData.CD_state}
                         onChange={handleChange}
                         required
                       />
                     </Form.Group>
                   </Col>
+                  <Col lg={4}>
+                    <Form.Group controlId="country">
+                      {/* Change controlId to "country" */}
+                      <Form.Control
+                        className="mb-2"
+                        type="text"
+                        name="CD_country"
+                        value={formData.CD_country}
+                        placeholder="Country"
+                        onChange={handleChange}
+                      />
+                    </Form.Group>
+                  </Col>
                 </Row>
 
-                <Form.Group controlId="inquiry">
+                <Form.Group controlId="selectService">
                   <Form.Control
                     className="mb-2"
                     as="select"
-                    name="inquiry"
-                    value={formData.inquiry}
-                    onChange={handleChange}
-                    required
+                    value={formData.CA_category}
+                    onChange={(e) => {
+                      setFormData({
+                        ...formData,
+                        CA_category: e.target.value,
+                      });
+                    }}
                   >
-                    <option value="">Choose Inquiry...</option>
-                    <option value="general">General Inquiry</option>
-                    <option value="support">Support</option>
-                    <option value="feedback">Feedback</option>
+                    <option value="">Inquire About</option>
+                    <option value="Inquire about Days on market">
+                      Inquire about Days on market
+                    </option>
+                    <option value="I want to build my own">
+                      I want to build my own
+                    </option>
+                    <option value="Request Information">
+                      Request Information
+                    </option>
+                    <option value="Inquire about Trade">
+                      Inquire about Trade
+                    </option>
+                    <option value="Inquire about Pricing and Inventory">
+                      Inquire about Pricing and Inventory
+                    </option>
                   </Form.Control>
                 </Form.Group>
 
@@ -280,8 +330,8 @@ function Contact() {
                     as="textarea"
                     placeholder="Leave your comments"
                     rows={3}
-                    name="comments"
-                    value={formData.comments}
+                    name="DS_comments1"
+                    value={formData.DS_comments1}
                     onChange={handleChange}
                     required
                   />
@@ -292,9 +342,9 @@ function Contact() {
                     className="mb-2"
                     as="textarea"
                     rows={3}
-                    name="comments2"
+                    name="DS_comments2"
                     placeholder="Do you currently own a boat? If so, what kind?"
-                    value={formData.comments2}
+                    value={formData.DS_comments2}
                     onChange={handleChange}
                     required
                   />

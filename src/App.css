@@ -259,7 +259,7 @@ a {
 /* ...................  */
 @media (max-width: 768px) {
   .custom-modal {
-    width: 95% !important; /* Adjust the width as needed */
+    width: 100% !important; /* Adjust the width as needed */
   }
 }
 /* Styles for the popup container */
@@ -320,9 +320,36 @@ a {
     width: 60%;
   }
 }
+/* Default styles for all screen sizes */
+.details-popup .detailed-swiper-popup {
+  width: auto;
+  height: 250px; /* Default height for all screens */
+}
 
+.details-popup .detailed-swiper-popup img {
+  width: auto;
+  height: 100%;
+}
+
+/* Media query for tablets (e.g., iPad) */
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+  .details-popup .detailed-swiper-popup {
+    height: 300px; /* Tablet height */
+  }
+}
+
+/* Media query for desktop screens */
+@media only screen and (min-width: 1024px) {
+  .details-popup .detailed-swiper-popup {
+    height: 500px; /* Desktop height */
+  }
+}
+.swiper-pagination-bullet {
+  background-color: #e4a11b;
+  color: #fff; /* Add this line if you want to change the color of the pagination text */
+}
 /*------Footer---------*/
-ul {
+footer ul {
   list-style: none;
   text-decoration: none;
 }

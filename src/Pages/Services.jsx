@@ -6,9 +6,8 @@ import hurricane_banner from "../Images/hurricane_banner.png";
 import tranaportation_banner from "../Images/transportation_banner.png";
 import charter_banner from "../Images/charter_banner.png";
 import Navbar from "../Components/Navbar";
-import { db } from "../firebase";
-import { addDoc, collection } from "firebase/firestore";
-
+import { ref, push } from "firebase/database";
+import { database } from "../firebase";
 const Services = () => {
   const formRef = useRef();
 
@@ -26,7 +25,7 @@ const Services = () => {
     setSelectedService(service);
     setFormData({
       ...formData,
-      inquiry: service,
+      CA_category: service,
     });
     scrollToForm();
   };
@@ -45,21 +44,22 @@ const Services = () => {
   };
 
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phoneNumber: "",
-    city: "",
-    state: "",
-    inquiry: "",
-    comments: "",
-    comments2: "",
+    NM_firstName: "",
+    NM_lastName: "",
+    ID_email: "",
+    NO_phoneNumber: "",
+    CD_city: "",
+    CD_state: "",
+    CD_country: "",
+    CA_category: "",
+    DS_comments1: "",
+    DS_comments2: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     // Validate and limit the length for the phoneNumber field
-    if (name === "phoneNumber") {
+    if (name === "NO_phoneNumber") {
       const phoneNumber = value.replace(/\D/g, ""); // Remove non-digit characters
       if (phoneNumber.length <= 10) {
         // Limit to 10 digits
@@ -73,26 +73,42 @@ const Services = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const currentDate = new Date();
+    const formattedDateTime = currentDate.toLocaleString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false, // Set to true for 12-hour clock format
+    });
+    const updatedFormData = {
+      ...formData,
+      submitDateTime: formattedDateTime,
+    };
+    const inquiriesRef = ref(database, "inquiries");
 
-    console.log(formData);
-
-    try {
-      const serviceReqDataRef = collection(db, "Contacts");
-      await addDoc(serviceReqDataRef, formData);
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phoneNumber: "",
-        city: "",
-        state: "",
-        inquiry: "",
-        comments: "",
-        comments2: "",
+    // Push the form data to the "inquiries" collection
+    push(inquiriesRef, updatedFormData)
+      .then((newInquiryRef) => {
+        // Reset the form
+        setFormData({
+          NM_firstName: "",
+          NM_lastName: "",
+          ID_email: "",
+          NO_phoneNumber: "",
+          CD_city: "",
+          CD_state: "",
+          CD_country: "",
+          CA_category: "",
+          DS_comments1: "",
+          DS_comments2: "",
+        });
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
       });
-    } catch (error) {
-      console.error("Error adding form data to Firestore:", error.message);
-    }
   };
   return (
     <div>
@@ -412,11 +428,11 @@ const Services = () => {
                   fontSize: "18px",
                 }}
               >
-                MegaSails in association and affiliated with American Yacht
-                Group have the ability to take your existing boat in on trade
-                towards a new HCB or other pre-owned boat we have in stock.
-                While our professional brokerage services can sell your yacht
-                fast, sometimes you don’t want to wait for that perfect buyer.
+                Simplifying the yacht trading experience, the trade-in process
+                efficiently removes the hassle and risk associated with
+                upgrading to a different vessel. This appealing plan eradicates
+                the concern of being stuck with two boats during the selling
+                period
               </p>
               <div>
                 <button
@@ -465,8 +481,8 @@ const Services = () => {
                         className="mb-2"
                         type="text"
                         placeholder="First Name"
-                        name="firstName"
-                        value={formData.firstName}
+                        name="NM_firstName"
+                        value={formData.NM_firstName}
                         onChange={handleChange}
                         required
                       />
@@ -477,9 +493,9 @@ const Services = () => {
                       <Form.Control
                         className="mb-2"
                         type="text"
-                        name="lastName"
+                        name="NM_lastName"
                         placeholder="Last Name"
-                        value={formData.lastName}
+                        value={formData.NM_lastName}
                         onChange={handleChange}
                         required
                       />
@@ -494,8 +510,8 @@ const Services = () => {
                         className="mb-2"
                         type="email"
                         placeholder="Email"
-                        name="email"
-                        value={formData.email}
+                        name="ID_email"
+                        value={formData.ID_email}
                         onChange={handleChange}
                         required
                       />
@@ -506,9 +522,9 @@ const Services = () => {
                       <Form.Control
                         className="mb-2"
                         type="tel"
-                        name="phoneNumber"
+                        name="NO_phoneNumber"
                         placeholder="Phone (123) 456-7890"
-                        value={formData.phoneNumber}
+                        value={formData.NO_phoneNumber}
                         onChange={handleChange}
                         required
                       />
@@ -517,29 +533,42 @@ const Services = () => {
                 </Row>
 
                 <Row className="g-2">
-                  <Col lg={6}>
+                  <Col lg={4}>
                     <Form.Group controlId="city">
                       <Form.Control
                         className="mb-2"
                         type="text"
-                        name="city"
+                        name="CD_city"
                         placeholder="City"
-                        value={formData.city}
+                        value={formData.CD_city}
                         onChange={handleChange}
                         required
                       />
                     </Form.Group>
                   </Col>
-                  <Col lg={6}>
+                  <Col lg={4}>
                     <Form.Group controlId="state">
                       <Form.Control
                         className="mb-2"
                         type="text"
                         placeholder="State"
-                        name="state"
-                        value={formData.state}
+                        name="CD_state"
+                        value={formData.CD_state}
                         onChange={handleChange}
                         required
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col lg={4}>
+                    <Form.Group controlId="country">
+                      {/* Change controlId to "country" */}
+                      <Form.Control
+                        className="mb-2"
+                        type="text"
+                        name="CD_country"
+                        value={formData.CD_country}
+                        placeholder="Country"
+                        onChange={handleChange}
                       />
                     </Form.Group>
                   </Col>
@@ -555,7 +584,7 @@ const Services = () => {
                       // manually selects a service
                       setFormData({
                         ...formData,
-                        inquiry: e.target.value,
+                        CA_category: e.target.value,
                       });
                     }}
                   >
@@ -576,8 +605,8 @@ const Services = () => {
                     as="textarea"
                     placeholder="Leave your comments"
                     rows={3}
-                    name="comments"
-                    value={formData.comments}
+                    name="DS_comments1"
+                    value={formData.DS_comments1}
                     onChange={handleChange}
                     required
                   />
@@ -588,10 +617,9 @@ const Services = () => {
                     className="mb-2"
                     as="textarea"
                     rows={3}
-                    name="comments2"
                     placeholder="Do you currently own a boat? If so, what kind?"
-                    value={formData.comments2}
                     onChange={handleChange}
+                    value={formData.DS_comments2}
                     required
                   />
                 </Form.Group>

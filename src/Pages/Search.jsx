@@ -81,7 +81,7 @@ function Search() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     fetchData(0, 24);
-  }, []);
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
